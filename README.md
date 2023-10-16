@@ -32,8 +32,19 @@
 `ubuntu == 22.04.3`
 `python == 3.10.12`
 
-### How to?
+## How to Run
 
+### Prerequisites
 
-`pip install -r requirements.txt`
+- ubuntu 22.04.3
+- Python 3.10.12 or higher
+- Streamlit
+- LangChain
+- OpenAI API key
 
+### Steps
+
+1. Clone this repository.
+2. Install the necessary Python packages using the command `pip install -r requirements.txt`.
+3. Set the environment variable for your OpenAI API key.
+4. Run the Streamlit app using the command `streamlit run run.py`.
