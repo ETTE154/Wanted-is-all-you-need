@@ -1,7 +1,5 @@
 # Wanted-is-all-you-need
-
-# 이력서 양식 변환 서비스
-[[BDIA DEV Contest]]
+ - 이력서 양식 변환 서비스
 ![BDIA_Benner](https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/f47bdcb3-529e-4c56-bad2-07cec8f1c3db)
 ***
 # 소개
@@ -9,7 +7,6 @@
 ## 목적
   이력서를 작성하다 보면 여러 구인 구직 플랫폼에서 요구하는 이력서의 양식이 서로 상이 하여 같은 내용의 이력서를 여러번 작성해야 하는 번거로움이 있다. 때문에 본 프로젝트는 **타 플랫폼** 에서 작성된 이력서를 불러와서 **Wanted**의 이력서로 변환 하는 것을 목표로 한다.
  
----
 ## 방법
 ### Front
 - web기반 서비스를 목표로 하며 `streamlit` 을 통해 구현 한다.
@@ -26,11 +23,6 @@
 
 ### Prompt_Engineering
 - [Prompt_Engineering.md](https://github.com/ETTE154/Wanted-is-all-you-need/blob/main/Prompt_Engineering.md) 에서 기술
-
-### dependency
-
-`ubuntu == 22.04.3`
-`python == 3.10.12`
 
 ## How to Run
 
