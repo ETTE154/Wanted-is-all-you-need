@@ -23,3 +23,6 @@
 2. 이력서에서 rawtext 데이터를 추출하고, 각 category별로 데이터를 나누어 저장한다.
 3. 카테고리 별로 분류된 데이터를 작성을 위한 llm을 이용해서 이력서의 내용을 작성한다. 
 4. 작성된 데이터를 `reportlab` 를 활용하여 PDF형태의 이력서로 작성한다.
+
+### Prompt_Engineering
+- [Prompt_Engineering.md].() 에서 기술
