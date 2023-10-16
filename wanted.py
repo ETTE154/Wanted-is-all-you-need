@@ -6,6 +6,8 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+from io import BytesIO
+
 from reportlab.platypus import Flowable
 from reportlab.lib.colors import black
 
@@ -227,7 +229,10 @@ class HorizontalLine(Flowable):
 def create_wanted_template_v2(filename, applicant_name,email,contact, introduce, 
                               experience_data, education_data, skills, awards_data, 
                               language_data, links_data):
-    doc = SimpleDocTemplate(filename, pagesize=A4)
+    
+    buffer = BytesIO()
+
+    doc = SimpleDocTemplate(buffer, pagesize=A4)
     story = []
 
     # 새로운 스타일 추가
@@ -301,6 +306,9 @@ def create_wanted_template_v2(filename, applicant_name,email,contact, introduce,
     add_links_section(story, links_data, styles)
     
     doc.build(story)
+
+    buffer.seek(0)
+    return buffer
 
 
 # # Sample Introduction Data
