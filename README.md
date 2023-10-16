@@ -12,7 +12,7 @@
 - web기반 서비스를 목표로 하며 `streamlit` 을 통해 구현 한다.
 - `reportlab` 을 활용한 PDF 형태로 다운로드를 받을 수 있는 서비스를 제공
 ### Back
-- 🦜️🔗`langchain` 프레임워크를 활용하여 아키텍쳐를 구성하고, llm의 경우 **GPT** 모델을 사용
+- 🦜️🔗`langchain` 프레임워크를 활용하여 아키텍쳐를 구성하고, llm의 경우 **gpt-3.5-turbo** 모델을 사용
 - 타 플랫폼의 이력서를 Wanted의 이력서 카테고리에 맞게 데이터를 분류할 프롬프트 엔지니어링 필요
 - `reportlab` 기반한 PDF 형테의 이력서 자동화 
 ### Architecture
