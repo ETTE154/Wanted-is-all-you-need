@@ -25,4 +25,4 @@
 4. 작성된 데이터를 `reportlab` 를 활용하여 PDF형태의 이력서로 작성한다.
 
 ### Prompt_Engineering
-- [Prompt_Engineering.md].() 에서 기술
+- [Prompt_Engineering.md](https://github.com/ETTE154/Wanted-is-all-you-need/blob/main/Prompt_Engineering.md) 에서 기술
