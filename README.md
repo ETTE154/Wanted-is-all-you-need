@@ -26,3 +26,14 @@
 
 ### Prompt_Engineering
 - [Prompt_Engineering.md](https://github.com/ETTE154/Wanted-is-all-you-need/blob/main/Prompt_Engineering.md) 에서 기술
+
+### dependency
+
+`ubuntu == 22.04.3`
+`python == 3.10.12`
+
+### How to?
+
+
+`pip install -r requirements.txt`
+
