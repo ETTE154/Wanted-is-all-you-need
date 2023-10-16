@@ -42,17 +42,3 @@
 2. Install the necessary Python packages using the command `pip install -r requirements.txt`.
 3. Set the environment variable for your OpenAI API key.
 4. Run the Streamlit app using the command `streamlit run run.py`.
-
-### Issue
-TypeError: string indices must be integers
-Traceback:
-File "/home/raspy/Desktop/Wanted-is-all-you-need-main/BDIA/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 541, in _run_script
-    exec(code, module.__dict__)
-File "/home/raspy/Desktop/Wanted-is-all-you-need-main/run.py", line 549, in <module>
-    main()
-File "/home/raspy/Desktop/Wanted-is-all-you-need-main/run.py", line 413, in main
-    pdf_buffer = create_wanted_template_v2(
-File "/home/raspy/Desktop/Wanted-is-all-you-need-main/wanted.py", line 278, in create_wanted_template_v2
-    add_experience_section(story, experience_data, styles)
-File "/home/raspy/Desktop/Wanted-is-all-you-need-main/wanted.py", line 34, in add_experience_section
-    Paragraph(exp["company"], styles["BoldFont_size12"]),
