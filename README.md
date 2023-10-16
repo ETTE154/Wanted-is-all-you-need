@@ -1,7 +1,6 @@
 # Wanted-is-all-you-need
-2023 BDIA DEV Contest
-태그 : #BDIA_DEV_Contest
 
+# 이력서 양식 변환 서비스
 [[BDIA DEV Contest]]
 ![BDIA_Benner](https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/f47bdcb3-529e-4c56-bad2-07cec8f1c3db)
 ***
