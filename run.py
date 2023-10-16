@@ -5,7 +5,7 @@ from PyPDF2 import PdfFileReader, PdfFileWriter,PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-from langchain.llms import OpenAI
+# from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
@@ -27,21 +27,21 @@ def get_career_info(vectorstore):
     if has_career == "0":
         return "경력이 없음"
 
-    companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(쉼표로 구분)")
+    companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(쉼표로 구분, 예시 : 삼성전자, 네이버)")
     
     companies = companies.split(', ')
     
     for company in companies:
         company_info = {}
-        company_info['company'] = company
+        company_info["company"] = company
 
-        position = get_response_from_predefined_query(vectorstore, f"{company}에서의 직무는?(단답형)")
-        company_info['position'] = position if position else "N/A"
+        position = get_response_from_predefined_query(vectorstore, f"{company}에서의 직무는?(단답형, 예시 : 프론트엔드 개발자)")
+        company_info["position"] = position if position else "N/A"
         
         duration = get_response_from_predefined_query(vectorstore, f"{company}에서의 기간(YYYY.MM ~ YYYY.MM)은?")
-        company_info['duration'] = duration if duration else "N/A"
+        company_info["duration"] = duration if duration else "N/A"
         
-        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트는?(쉼표로 구분)")
+        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트는?(쉼표로 구분, 예시 : Galaxy S20 UI 개발, 네이버 메인페이지 리뉴얼)")
         project_list = []
         
         if projects:
@@ -49,17 +49,17 @@ def get_career_info(vectorstore):
             
             for project in projects:
                 project_info = {}
-                project_info['name'] = project
+                project_info["name"] = project
 
                 details = get_response_from_predefined_query(vectorstore, f"{project}의 세부내용은?")
-                project_info['details'] = details if details else "N/A"
+                project_info["details"] = details if details else "N/A"
 
                 project_duration = get_response_from_predefined_query(vectorstore, f"{project}의 기간(YYYY.MM ~ YYYY.MM)은?")
-                project_info['duration'] = project_duration if project_duration else "N/A"
+                project_info["duration"] = project_duration if project_duration else "N/A"
                 
                 project_list.append(project_info)
         
-        company_info['projects'] = project_list
+        company_info["projects"] = project_list
         career_info.append(company_info)
         
     return career_info
@@ -156,8 +156,8 @@ def get_response_from_predefined_query(vectorstore, predefined_query):
     docs = vectorstore.similarity_search(query=predefined_query, k=2)
     
     # openai rank lnv process
-    # llm = ChatOpenAI(model_name = "gpt-4",temperature=0)
-    llm = OpenAI(temperature=0)
+    llm = ChatOpenAI(temperature=0)
+    # llm = OpenAI(model_name = "gpt-3.5-turbo",temperature=0)
     chain = load_qa_chain(llm=llm, chain_type="stuff")
     
     with get_openai_callback() as cb:
@@ -195,7 +195,7 @@ def get_language_data(vectorstore):
     return language_data
 
 def get_links(vectorstore):
-    link_query = "이력서에서 제공되는 노션 및 깃허브의 링크는?(쉼표로 구분)"
+    link_query = "이력서에서 제공되는 노션 또는 깃허브의 링크는?(쉼표로 구분)"
     link_response = get_response_from_predefined_query(vectorstore, link_query)
     
     if not link_response or link_response.lower() == 'none':
@@ -236,12 +236,19 @@ def _get_state():
 def initialize_state():
     if 'name' not in st.session_state:
         st.session_state.name = ""
+    if 'introduce' not in st.session_state:
         st.session_state.introduce = ""
+    if 'experience' not in st.session_state:
         st.session_state.experience = ""
+    if 'education' not in st.session_state:
         st.session_state.education = ""
+    if 'skills_list' not in st.session_state:
         st.session_state.skills_list = ""
+    if 'awards_and_others' not in st.session_state:
         st.session_state.awards_and_others = ""
+    if 'language' not in st.session_state:
         st.session_state.language = ""
+    if 'link' not in st.session_state:
         st.session_state.link = ""
     # 여기에 다른 state 초기화 코드 추가
 
@@ -327,18 +334,20 @@ def main():
             # 미리 정의된 질문
             with st.spinner("이력서 작성중...(5분이상 소요될 수 있습니다.)"):
             
-                get_name = "작성자의 이름은?(단답형)"
-                                
-                # get_experience = "작성자의 경력은?"
-                # get_education = "작성자의 학력은?"
-                # get_skills_list = "작성자의 기술은?"
-                # get_awards_and_others = "작성자의 수상 및 교육수료 내용은?"
-                # get_language = "작성자의 외국어 수준은?"
-                # get_link = "작성자의 노션 및 깃허브 링크는?"
+                get_name = "작성자의 이름은?(단답형, 예시 : 홍길동)"
+                get_email = "작성자의 이메일은?(단답형, 예시 : abc123@gmail.com)"
+                get_contact = "작성자의 연락처는?(단답형, 예시 : 010-1234-5678)"
                 
-                # 함수를 호출하여 response를 얻음
+                # get name
                 name = get_response_from_predefined_query(vectorstore, get_name)
                 
+                # get email
+                email = get_response_from_predefined_query(vectorstore, get_email)
+                
+                # get contact
+                contact = get_response_from_predefined_query(vectorstore, get_contact)
+                
+                # get introduce
                 introduce = get_introduce(vectorstore)
                 
                 # experience = get_response_from_predefined_query(vectorstore, get_experience)
@@ -358,70 +367,73 @@ def main():
                 
                 # link = get_response_from_predefined_query(vectorstore, get_link)
                 link = get_links(vectorstore)
-                
+
                 st.subheader("이름")
-                st.session_state.name = st.text_area('ex) 홍길동', st.session_state.name)
-                # st.subheader(divider="---")
+                name = st.text_area('ex) 홍길동', name)
                 
+                st.subheader("이메일")
+                email = st.text_area('ex) abc123@gmail.com', email)
+                
+                st.subheader("연락처")
+                contact = st.text_area('ex) 010-1234-5678', contact)                
+                                                                    
                 st.subheader("자기소개")
-                st.session_state.introduce = st.text_area('자기소개를 작성해주세요.', introduce)
+                introduce = st.text_area('자기소개를 작성해주세요.', introduce)
                 
                 st.subheader("경력")
-                st.session_state.experience = st.text_area('경력을 작성해주세요.', experience)
+                experience = st.text_area('경력을 작성해주세요.', experience)
                 
                 st.subheader("학력")
-                st.session_state.education = st.text_area('학력을 작성해주세요.', education)
+                education = st.text_area('학력을 작성해주세요.', education)
                 
                 st.subheader("기술")
-                st.session_state.skills_list = st.text_area('기술을 작성해주세요.', skills_list)
+                skills_list = st.text_area('기술을 작성해주세요.', skills_list)
                 
                 st.subheader("수상 및 기타")
-                st.session_state.awards_and_others = st.text_area('수상 및 기타를 작성해주세요.', awards_and_others)
+                awards_and_others = st.text_area('수상 및 기타를 작성해주세요.', awards_and_others)
                 
                 st.subheader("외국어")
-                st.session_state.language = st.text_area('외국어를 작성해주세요.', language)
+                language = st.text_area('외국어를 작성해주세요.', language)
                 
                 st.subheader("링크")
-                st.session_state.link = st.text_area('링크를 작성해주세요.', link)
+                link = st.text_area('링크를 작성해주세요.', link)
                 
-                
-                if st.button("이력서 생성"):
-                    with st.spinner("이력서 생성...(5분이상 소요될 수 있습니다.)"):
-                        write_name = state.get('name', '')
-                        write_introduce = state.get('introduce','')
-                        write_experience = state.get('experience','')
-                        write_education = state.get('education','')
-                        write_skills_list = state.get('skills_list','')
-                        write_awards_and_others = state.get('awards_and_others','')
-                        write_language = state.get('language','')
-                        write_link = state.get('link','')
-                                            
-                        filename = (f"{write_name}의_이력서.pdf")
-                        # 여기에서 create_wanted_template_v2 함수를 호출하여 이력서 PDF를 생성합니다.
-                        # 예를 들면:
-                        pdf_buffer = create_wanted_template_v2(
-                            filename = filename,
-                            applicant_name = "전채욱",
-                            email = " a01025648934@gmail.com",
-                            name=write_name, 
-                            introduce=write_introduce,
-                            career=write_experience, 
-                            education=write_education, 
-                            skills=write_skills_list,
-                            awards=write_awards_and_others, 
-                            language=write_language, 
-                            links=write_link
-                        )
-                
-                        pdf_bytes = pdf_buffer.read()  # BytesIO 객체에서 바이트 데이터를 읽음
+                filename = (name + "의 이력서.pdf")
+                # create_wanted_template_v2(filename = "wanted_template_v2.pdf",
+                # applicant_name = "전채욱",
+                # email = " a01025648934@gmail.com",
+                # contact = " 010-2564-8934",
+                # introduce = introduce,
+                # experience_data = experience,
+                # education_data = education,
+                # skills = skills_list,
+                # awards_data = awards_and_others,
+                # language_data = language_data_sample,
+                # links_data=links_data_sample)
+            
+                create_wanted_template_v2(
+                    filename = filename,
+                    applicant_name = name,
+                    email = email,
+                    contact = contact,
+                    introduce = introduce,
+                    experience_data = experience, 
+                    education_data = education, 
+                    skills = skills_list,
+                    awards_data = awards_and_others, 
+                    language_data = language, 
+                    links_data = link
+                )
+        
+                # pdf_bytes = pdf_buffer.read()  # BytesIO 객체에서 바이트 데이터를 읽음
 
-                        # 다운로드 버튼 추가
-                        st.download_button(
-                            label="이력서 다운로드",
-                            data=pdf_bytes,
-                            file_name=f"{st.session_state.name}_이력서.pdf",
-                            mime="application/pdf"
-                        )
+                # # 다운로드 버튼 추가
+                # st.download_button(
+                #     label="이력서 다운로드",
+                #     data=pdf_bytes,
+                #     file_name=f"{name}_이력서.pdf",
+                #     mime="application/pdf"
+                # )
 
 
 if __name__=="__main__":

@@ -303,103 +303,103 @@ def create_wanted_template_v2(filename, applicant_name,email,contact, introduce,
     doc.build(story)
 
 
-# Sample Introduction Data
-introduce = '''Next.js, TypeScript, React 기반의 5년차 프론트엔드 개발자 김티드입니다.
-새로운 기술을 활용해 비즈니스 문제를 해결하는 것에 관심이 많습니다.
+# # Sample Introduction Data
+# introduce = '''Next.js, TypeScript, React 기반의 5년차 프론트엔드 개발자 김티드입니다.
+# 새로운 기술을 활용해 비즈니스 문제를 해결하는 것에 관심이 많습니다.
 
-• 웹/앱 서비스의 프론트엔드 설계, 개발, 운영 경험
-• 다수의 UI 구현 경험으로 사용자 인터렉션에 대한 높은 이해도
-• 제한된 리소스 환경에서 기획 단계부터 참여한 프로젝트 다수
-• 프로젝트 리딩 및 다양한 팀과의 협업 경험'''
+# • 웹/앱 서비스의 프론트엔드 설계, 개발, 운영 경험
+# • 다수의 UI 구현 경험으로 사용자 인터렉션에 대한 높은 이해도
+# • 제한된 리소스 환경에서 기획 단계부터 참여한 프로젝트 다수
+# • 프로젝트 리딩 및 다양한 팀과의 협업 경험'''
 
-# Sample Experience Data
-experience = [
-    {
-        "company": "삼성전자",
-        "position": "소프트웨어 엔지니어",
-        "duration": "2018.01 ~ 2021.01",
-        "projects": [
-            {
-                "name": "Galaxy S20 UI 개발",
-                "duration": "2019.05 ~ 2020.05",
-                "details": ["UI 구현", "사용자 인터랙션 개선"]
-            },
-            {
-                "name": "Tizen OS 개발",
-                "duration": "2018.02 ~ 2019.04",
-                "details": ["OS 최적화", "보안 패치 적용"]
-            }
-        ]
-    },
-    {
-        "company": "LG전자",
-        "position": "데이터 과학자",
-        "duration": "2021.02 ~ 현재",
-        "projects": [
-            {
-                "name": "데이터 분석 플랫폼 구축",
-                "duration": "2021.02 ~ 현재",
-                "details": ["데이터 수집 및 처리", "분석 모델 구현"]
-            }
-        ]
-    }
-]
+# # Sample Experience Data
+# experience = [
+#     {
+#         "company": "삼성전자",
+#         "position": "소프트웨어 엔지니어",
+#         "duration": "2018.01 ~ 2021.01",
+#         "projects": [
+#             {
+#                 "name": "Galaxy S20 UI 개발",
+#                 "duration": "2019.05 ~ 2020.05",
+#                 "details": ["UI 구현", "사용자 인터랙션 개선"]
+#             },
+#             {
+#                 "name": "Tizen OS 개발",
+#                 "duration": "2018.02 ~ 2019.04",
+#                 "details": ["OS 최적화", "보안 패치 적용"]
+#             }
+#         ]
+#     },
+#     {
+#         "company": "LG전자",
+#         "position": "데이터 과학자",
+#         "duration": "2021.02 ~ 현재",
+#         "projects": [
+#             {
+#                 "name": "데이터 분석 플랫폼 구축",
+#                 "duration": "2021.02 ~ 현재",
+#                 "details": ["데이터 수집 및 처리", "분석 모델 구현"]
+#             }
+#         ]
+#     }
+# ]
 
-# Sample Education Data
-education = [
-    {
-        "school_name": "서울대학교",
-        "major": "컴퓨터공학과",
-        "duration": "2014.03 ~ 2018.02"
-    },
-    {
-        "school_name": "부산대학교",
-        "major": "전자공학과",
-        "duration": "2010.03 ~ 2014.02"
-    }
-]
+# # Sample Education Data
+# education = [
+#     {
+#         "school_name": "서울대학교",
+#         "major": "컴퓨터공학과",
+#         "duration": "2014.03 ~ 2018.02"
+#     },
+#     {
+#         "school_name": "부산대학교",
+#         "major": "전자공학과",
+#         "duration": "2010.03 ~ 2014.02"
+#     }
+# ]
 
-# Updated Awards and Others Data
-awards_and_others = [
-    {
-        "type": "원티드 주관 해커톤 <해, 커리어> 1위 수상",
-        "details": "아티스트 공연 홍보/펀딩 위한 앱 서비스",
-        "date": "2018.03"
-    },
-    {
-        "type": "ABC 프론트엔드 교육 과정 이수",
-        "details": "",
-        "date": "2017.01"
-    }
-]
+# # Updated Awards and Others Data
+# awards_and_others = [
+#     {
+#         "type": "원티드 주관 해커톤 <해, 커리어> 1위 수상",
+#         "details": "아티스트 공연 홍보/펀딩 위한 앱 서비스",
+#         "date": "2018.03"
+#     },
+#     {
+#         "type": "ABC 프론트엔드 교육 과정 이수",
+#         "details": "",
+#         "date": "2017.01"
+#     }
+# ]
 
-# Sample Skills Data
-skills_list = ["React.js", "TypeScript", "JavaScript", "SASS", "CSS", "HTML", "Node.js", "JIRA", "Confluence"]
+# # Sample Skills Data
+# skills_list = ["React.js", "TypeScript", "JavaScript", "SASS", "CSS", "HTML", "Node.js", "JIRA", "Confluence"]
 
-# Sample Language Data
-language_data_sample = [
-    {
-        "language": "영어",
-        "test": "토익",
-        "date": "2023.09",
-        "score": 750
-    }
-]
+# # Sample Language Data
+# language_data_sample = [
+#     {
+#         "language": "영어",
+#         "test": "토익",
+#         "date": "2023.09",
+#         "score": 750
+#     }
+# ]
 
-# Sample Links Data
-links_data_sample = [
-    "https://github.com/wanted",
-    "https://medium.com/wanted"
-]
+# # Sample Links Data
+# links_data_sample = [
+#     "https://github.com/wanted",
+#     "https://medium.com/wanted"
+# ]
 
-create_wanted_template_v2(filename = "wanted_template_v2.pdf",
-                          applicant_name = "전채욱",
-                          email = " a01025648934@gmail.com",
-                          contact = " 010-2564-8934",
-                          introduce = introduce,
-                          experience_data = experience,
-                          education_data = education,
-                          skills = skills_list,
-                          awards_data = awards_and_others,
-                          language_data = language_data_sample,
-                          links_data=links_data_sample)
+# create_wanted_template_v2(filename = "wanted_template_v2.pdf",
+#                           applicant_name = "전채욱",
+#                           email = " a01025648934@gmail.com",
+#                           contact = " 010-2564-8934",
+#                           introduce = introduce,
+#                           experience_data = experience,
+#                           education_data = education,
+#                           skills = skills_list,
+#                           awards_data = awards_and_others,
+#                           language_data = language_data_sample,
+#                           links_data=links_data_sample)
