@@ -1,6 +1,8 @@
 # Wanted-is-all-you-need
  - 이력서 양식 변환 서비스
-![BDIA_Benner](https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/f47bdcb3-529e-4c56-bad2-07cec8f1c3db)
+file:///home/raspy/Desktop/Untitled-6-01.png
+
+
 ***
 # 소개
 
