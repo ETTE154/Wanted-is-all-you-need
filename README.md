@@ -1,9 +1,9 @@
 # Wanted-is-all-you-need
 2023 BDIA DEV Contest
-태그 : #BDIA_DEV_Contest 
-git : [저장소 링크]()
+태그 : #BDIA_DEV_Contest
+
 [[BDIA DEV Contest]]
-![[BDIA_Benner.png]]
+![BDIA_Benner](https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/f47bdcb3-529e-4c56-bad2-07cec8f1c3db)
 ***
 # 소개
 
