@@ -13,13 +13,19 @@ from reportlab.lib.colors import black
 
 from reportlab.platypus.tables import Table, TableStyle
 
+import re
+
 # 글꼴 등록
 pdfmetrics.registerFont(TTFont('SpoqaHanSansNeo-Regular', 'SpoqaHanSansNeo_TTF_original/SpoqaHanSansNeo-Regular.ttf'))
 pdfmetrics.registerFont(TTFont('SpoqaHanSansNeo-Bold', 'SpoqaHanSansNeo_TTF_original/SpoqaHanSansNeo-Bold.ttf'))
 pdfmetrics.registerFont(TTFont('SpoqaHanSansNeo-Thin', 'SpoqaHanSansNeo_TTF_original/SpoqaHanSansNeo-Thin.ttf'))
 
 def add_experience_section(story, experience_data, styles):
-    # Adding the "경력" label only once for the first item
+    if isinstance(experience_data, str):
+    # Handle the case where experience_data is a string (e.g., "경력이 없음")
+        story.append(Paragraph(experience_data, styles["RegularFont"]))
+        return
+    #Adding the "경력" label only once for the first item
     label_added = False
     for exp in experience_data:
         # Add the "경력" label only for the first item
@@ -43,9 +49,16 @@ def add_experience_section(story, experience_data, styles):
                          Paragraph("● " + proj["name"] + " " + proj["duration"], styles["RegularFont_size10"]),
                          None])
             for detail in proj["details"]:
-                data.append([None, Paragraph("– " + detail, styles["CustomBullet_size10"]), None])
+                
+                if not isinstance(detail, str):
+                    detail = " ".join(map(str, detail)) 
+                
+                detail = re.sub(r'\n', ' ', detail)  # 줄바꿈을 공백으로 대체
+                    
+                data.append([None, Paragraph("– ", styles["RegularFont_size10"]), None])
+                data.append([None, Paragraph(detail, styles["RegularFont_size10"]), None])
         
-        table = Table(data, colWidths=[40, 250, 150], rowHeights=20)
+        table = Table(data, colWidths=[40, 300, 150], rowHeights=20)
         table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('LEFTPADDING', (0, 0), (-1, -1), 5),
@@ -55,6 +68,10 @@ def add_experience_section(story, experience_data, styles):
         story.append(Spacer(1, 25))
 
 def add_education_section(story, education_data, styles):
+    if isinstance(education_data, str):
+    # Handle the case where education_data is a string (e.g., "학력 정보가 없습니다.")
+        story.append(Paragraph(education_data, styles["RegularFont"]))
+        return
     # Adding the "학력" label only once for the first item
     label_added = False
     for edu in education_data:
@@ -126,6 +143,10 @@ def add_skills_section(story, skills, styles, max_width=400):
     story.append(Spacer(1, 25))
 
 def add_awards_and_others_section(story, awards_data, styles):
+    if isinstance(awards_data, str):
+    # Handle the case where education_data is a string (e.g., "수상 정보가 없습니다.")
+        story.append(Paragraph(awards_data, styles["RegularFont"]))
+        return
     # Create an empty data list to store the table rows
     data = []
     label_added = False
@@ -158,6 +179,10 @@ def add_awards_and_others_section(story, awards_data, styles):
     story.append(Spacer(1, 25))
 
 def add_language_section(story, language_data, styles):
+    if isinstance(language_data, str):
+    # Handle the case where language_data is a string (e.g., "학습한 외국어 정보가 없습니다.")
+        story.append(Paragraph(language_data, styles["RegularFont"]))
+        return
     # Create an empty data list to store the table rows
     data = []
     label_added = False

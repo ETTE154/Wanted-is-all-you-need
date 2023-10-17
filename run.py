@@ -22,10 +22,10 @@ from wanted import create_wanted_template_v2
 def get_career_info(vectorstore):
     career_info = []
     
-    has_career = get_response_from_predefined_query(vectorstore, "작성자는 회사 경력이 있는지에 대해 1(있다), 0(없다)로 답하라.")
+    # has_career = get_response_from_predefined_query(vectorstore, "작성자는 회사 경력이 있는지에 대해 1(있다), 0(없다)로 답하라.")
 
-    if has_career == "0":
-        return "경력이 없음"
+    # if has_career == "0":
+    #     return "경력이 없음"
 
     companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(쉼표로 구분, 예시 : 삼성전자, 네이버)")
     
@@ -93,7 +93,7 @@ def get_skills_list(vectorstore):
     skills_response = get_response_from_predefined_query(vectorstore, skills_query)
     
     if not skills_response or skills_response.lower() == 'none':
-        return "기술 스택 정보가 없습니다."
+        return ["기술 스택 정보가 없습니다."]
         
     skills_list = skills_response.split(', ')
     
@@ -351,6 +351,7 @@ def main():
                 introduce = get_introduce(vectorstore)
                 
                 # experience = get_response_from_predefined_query(vectorstore, get_experience)
+                experience = []
                 experience = get_career_info(vectorstore)
                 
                 # education = get_response_from_predefined_query(vectorstore, get_education)
@@ -369,36 +370,36 @@ def main():
                 link = get_links(vectorstore)
 
                 st.subheader("이름")
-                name = st.text_area('ex) 홍길동', name)
+                st.text_area('ex) 홍길동', name)
                 
                 st.subheader("이메일")
-                email = st.text_area('ex) abc123@gmail.com', email)
+                st.text_area('ex) abc123@gmail.com', email)
                 
                 st.subheader("연락처")
-                contact = st.text_area('ex) 010-1234-5678', contact)                
+                st.text_area('ex) 010-1234-5678', contact)                
                                                                     
                 st.subheader("자기소개")
-                introduce = st.text_area('자기소개를 작성해주세요.', introduce)
+                st.text_area('자기소개를 작성해주세요.', introduce)
                 
                 st.subheader("경력")
-                experience = st.text_area('경력을 작성해주세요.', experience)
+                st.text_area('경력을 작성해주세요.', experience)
                 
                 st.subheader("학력")
-                education = st.text_area('학력을 작성해주세요.', education)
+                st.text_area('학력을 작성해주세요.', education)
                 
                 st.subheader("기술")
-                skills_list = st.text_area('기술을 작성해주세요.', skills_list)
+                st.text_area('기술을 작성해주세요.', skills_list)
                 
                 st.subheader("수상 및 기타")
-                awards_and_others = st.text_area('수상 및 기타를 작성해주세요.', awards_and_others)
+                st.text_area('수상 및 기타를 작성해주세요.', awards_and_others)
                 
                 st.subheader("외국어")
-                language = st.text_area('외국어를 작성해주세요.', language)
+                st.text_area('외국어를 작성해주세요.', language)
                 
                 st.subheader("링크")
-                link = st.text_area('링크를 작성해주세요.', link)
+                st.text_area('링크를 작성해주세요.', link)
                 
-                filename = (name + "의 이력서.pdf")
+                # filename = (name + "의 이력서.pdf")
                 # create_wanted_template_v2(filename = "wanted_template_v2.pdf",
                 # applicant_name = "전채욱",
                 # email = " a01025648934@gmail.com",
@@ -410,121 +411,28 @@ def main():
                 # awards_data = awards_and_others,
                 # language_data = language_data_sample,
                 # links_data=links_data_sample)
-                try:
-                    create_wanted_template_v2(
-                        filename = filename,
+                pdf_buffer = create_wanted_template_v2(
+                        filename = f"{name}의 이력서.pdf",
                         applicant_name = name,
                         email = email,
                         contact = contact,
                         introduce = introduce,
-                        experience_data = experience, 
-                        education_data = education, 
+                        experience_data = experience,
+                        education_data = education,
                         skills = skills_list,
-                        awards_data = awards_and_others, 
-                        language_data = language, 
-                        links_data = link
+                        awards_data = awards_and_others,
+                        language_data = language,
+                        links_data=link
                     )
-                except TypeError:  
-                    # Sample Introduction Data
-                    introduce = '''Next.js, TypeScript, React 기반의 5년차 프론트엔드 개발자 김티드입니다.
-                    새로운 기술을 활용해 비즈니스 문제를 해결하는 것에 관심이 많습니다.
 
-                    • 웹/앱 서비스의 프론트엔드 설계, 개발, 운영 경험
-                    • 다수의 UI 구현 경험으로 사용자 인터렉션에 대한 높은 이해도
-                    • 제한된 리소스 환경에서 기획 단계부터 참여한 프로젝트 다수
-                    • 프로젝트 리딩 및 다양한 팀과의 협업 경험'''
+                pdf_bytes = pdf_buffer.read()  # BytesIO 객체에서 바이트 데이터를 읽음
 
-                    # Sample Experience Data
-                    experience = [
-                        {
-                            "company": "삼성전자",
-                            "position": "소프트웨어 엔지니어",
-                            "duration": "2018.01 ~ 2021.01",
-                            "projects": [
-                                {
-                                    "name": "Galaxy S20 UI 개발",
-                                    "duration": "2019.05 ~ 2020.05",
-                                    "details": ["UI 구현", "사용자 인터랙션 개선"]
-                                },
-                                {
-                                    "name": "Tizen OS 개발",
-                                    "duration": "2018.02 ~ 2019.04",
-                                    "details": ["OS 최적화", "보안 패치 적용"]
-                                }
-                            ]
-                        },
-                        {
-                            "company": "LG전자",
-                            "position": "데이터 과학자",
-                            "duration": "2021.02 ~ 현재",
-                            "projects": [
-                                {
-                                    "name": "데이터 분석 플랫폼 구축",
-                                    "duration": "2021.02 ~ 현재",
-                                    "details": ["데이터 수집 및 처리", "분석 모델 구현"]
-                                }
-                            ]
-                        }
-                    ]
-
-                    # Sample Education Data
-                    education = [
-                        {
-                            "school_name": "동의대학교",
-                            "major": "로봇 자동화 공학과",
-                            "duration": "2017.03 ~ 재학중"
-                        }
-                    ]
-
-                    # Updated Awards and Others Data
-                    awards_and_others = [
-                        {
-                            "type": "없음",
-                            "details": "없음",
-                            "date": "없음"
-                        }
-                    ]
-
-                    # Sample Skills Data
-                    skills_list = ["React.js", "TypeScript", "JavaScript", "SASS", "CSS", "HTML", "Node.js", "JIRA", "Confluence"]
-
-                    # Sample Language Data
-                    language_data_sample = [
-                        {
-                            "language": "영어",
-                            "test": "토익",
-                            "date": "2023.09",
-                            "score": 750
-                        }
-                    ]
-
-                    # Sample Links Data
-                    links_data_sample = [
-                        "https://github.com/wanted",
-                        "https://medium.com/wanted"
-                    ]
-                    pdf_buffer = create_wanted_template_v2(
-                            filename = f"{name}의 이력서.pdf",
-                            applicant_name = name,
-                            email = email,
-                            contact = contact,
-                            introduce = introduce,
-                            experience_data = experience,
-                            education_data = education,
-                            skills = skills_list,
-                            awards_data = awards_and_others,
-                            language_data = language_data_sample,
-                            links_data=links_data_sample
-                        )
-
-                    pdf_bytes = pdf_buffer.read()  # BytesIO 객체에서 바이트 데이터를 읽음
-
-                        # 다운로드 버튼 추가
-                    st.download_button(
-                        label="이력서 다운로드",
-                        data=pdf_bytes,
-                        file_name=f"{name}_이력서.pdf",
-                        mime="application/pdf"
+                    # 다운로드 버튼 추가
+                st.download_button(
+                    label="이력서 다운로드",
+                    data=pdf_bytes,
+                    file_name=f"{name}_이력서.pdf",
+                    mime="application/pdf"
 )
 
 
