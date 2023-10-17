@@ -29,6 +29,7 @@ def add_experience_section(story, experience_data, styles):
     label_added = False
     for exp in experience_data:
         # Add the "경력" label only for the first item
+        rowHeights = 20
         if not label_added:
             label = Paragraph("경력", styles["RegularFont"])
             label_added = True
@@ -45,20 +46,22 @@ def add_experience_section(story, experience_data, styles):
         
         # Projects
         for proj in exp["projects"]:
+            rowHeights = 20
             data.append([None,
                          Paragraph("● " + proj["name"] + " " + proj["duration"], styles["RegularFont_size10"]),
                          None])
-            for detail in proj["details"]:
+            rowHeights = 80
+            detail = proj["details"]
+            
+            # if not isinstance(detail, str):
+            #     detail = " ".join(map(str, detail)) 
+            
+            # detail = re.sub(r'\n', ' ', detail)  # 줄바꿈을 공백으로 대체
                 
-                if not isinstance(detail, str):
-                    detail = " ".join(map(str, detail)) 
-                
-                detail = re.sub(r'\n', ' ', detail)  # 줄바꿈을 공백으로 대체
-                    
-                data.append([None, Paragraph("– ", styles["RegularFont_size10"]), None])
-                data.append([None, Paragraph(detail, styles["RegularFont_size10"]), None])
-        
-        table = Table(data, colWidths=[40, 300, 150], rowHeights=20)
+            # data.append([None, Paragraph("– ", styles["CustomBullet_size10"]), None])
+            data.append([None, Paragraph("– "+detail, styles["CustomBullet_size10"]), None])
+    
+        table = Table(data, colWidths=[50, 250, 150], rowHeights=rowHeights)
         table.setStyle(TableStyle([
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('LEFTPADDING', (0, 0), (-1, -1), 5),

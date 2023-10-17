@@ -22,10 +22,10 @@ from wanted import create_wanted_template_v2
 def get_career_info(vectorstore):
     career_info = []
     
-    # has_career = get_response_from_predefined_query(vectorstore, "작성자는 회사 경력이 있는지에 대해 1(있다), 0(없다)로 답하라.")
+    has_career = get_response_from_predefined_query(vectorstore, "작성자는 회사 경력이 있는지에 대해 1(있다), 0(없다)로 답하라.")
 
-    # if has_career == "0":
-    #     return "경력이 없음"
+    if has_career == "0":
+        return "경력이 없음"
 
     companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(쉼표로 구분, 예시 : 삼성전자, 네이버)")
     
@@ -38,10 +38,10 @@ def get_career_info(vectorstore):
         position = get_response_from_predefined_query(vectorstore, f"{company}에서의 직무는?(단답형, 예시 : 프론트엔드 개발자)")
         company_info["position"] = position if position else "N/A"
         
-        duration = get_response_from_predefined_query(vectorstore, f"{company}에서의 기간(YYYY.MM ~ YYYY.MM)은?")
+        duration = get_response_from_predefined_query(vectorstore, f"{company}에서의 기간은?(기간만을 출력하여라, 예시) YYYY.MM ~ YYYY.MM)")
         company_info["duration"] = duration if duration else "N/A"
         
-        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트는?(쉼표로 구분, 예시 : Galaxy S20 UI 개발, 네이버 메인페이지 리뉴얼)")
+        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트명은?(쉼표로 구분, 로젝트 명 만을 출력하라,예시 : Galaxy S20 UI 개발, 네이버 메인페이지 리뉴얼)")
         project_list = []
         
         if projects:
@@ -51,10 +51,10 @@ def get_career_info(vectorstore):
                 project_info = {}
                 project_info["name"] = project
 
-                details = get_response_from_predefined_query(vectorstore, f"{project}의 세부내용은?")
+                details = get_response_from_predefined_query(vectorstore, f"{project}의 세부내용은?(100타 이내로 작성)")
                 project_info["details"] = details if details else "N/A"
 
-                project_duration = get_response_from_predefined_query(vectorstore, f"{project}의 기간(YYYY.MM ~ YYYY.MM)은?")
+                project_duration = get_response_from_predefined_query(vectorstore, f"{project}의 기간은?(예시 : YYYY.MM ~ YYYY.MM)")
                 project_info["duration"] = project_duration if project_duration else "N/A"
                 
                 project_list.append(project_info)
@@ -81,7 +81,7 @@ def get_education_info(vectorstore):
         major = get_response_from_predefined_query(vectorstore, f"{school}에서의 전공은?(단답형)")
         school_info['major'] = major if major else "N/A"
         
-        duration = get_response_from_predefined_query(vectorstore, f"{school}을 다닌 기간(YYYY.MM ~ YYYY.MM)은?")
+        duration = get_response_from_predefined_query(vectorstore, f"{school}을 다닌 기간은?(예시 : YYYY.MM ~ YYYY.MM)")
         school_info['duration'] = duration if duration else "N/A"
         
         education_info.append(school_info)
@@ -114,10 +114,10 @@ def get_awards_and_others(vectorstore):
     awards_and_others = []
     
     for award in awards_list:
-        date_query = f"{award}의 날짜는?(YYYY.MM)"
+        date_query = f"{award}의 날짜는?(일자만 출력, 예시 : YYYY.MM)"
         date_response = get_response_from_predefined_query(vectorstore, date_query)
         
-        details_query = f"{award}의 세부 내용은?"
+        details_query = f"{award}의 세부 내용은?(없을경우 ""로 작성)"
         details_response = get_response_from_predefined_query(vectorstore, details_query)
         
         awards_and_others.append({
