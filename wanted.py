@@ -22,53 +22,49 @@ pdfmetrics.registerFont(TTFont('SpoqaHanSansNeo-Thin', 'SpoqaHanSansNeo_TTF_orig
 
 def add_experience_section(story, experience_data, styles):
     if isinstance(experience_data, str):
-    # Handle the case where experience_data is a string (e.g., "경력이 없음")
         story.append(Paragraph(experience_data, styles["RegularFont"]))
         return
-    #Adding the "경력" label only once for the first item
+
     label_added = False
+    data = []
+    rowHeights = []
+
     for exp in experience_data:
-        # Add the "경력" label only for the first item
-        rowHeights = 20
         if not label_added:
             label = Paragraph("경력", styles["RegularFont"])
             label_added = True
         else:
             label = ""
-        
-        # Company, Position, and Duration
-        data = [[label, 
-                 Paragraph(exp["company"], styles["BoldFont_size12"]),
-                 Paragraph(exp["duration"], styles["RegularFont"])]]
+
+        data.append([label, 
+                     Paragraph(exp["company"], styles["BoldFont_size12"]),
+                     Paragraph(exp["duration"], styles["RegularFont"])])
+        rowHeights.append(20)
+
         data.append([None,
                      Paragraph(exp["position"], styles["RegularFont"]),
                      None])
-        
-        # Projects
+        rowHeights.append(20)
+
         for proj in exp["projects"]:
-            rowHeights = 20
             data.append([None,
-                         Paragraph("● " + proj["name"] + " " + proj["duration"], styles["RegularFont_size10"]),
-                         None])
-            rowHeights = 80
+                         Paragraph("● " + proj["name"], styles["RegularFont_size10"]),
+                         Paragraph(proj["duration"], styles["RegularFont_size10"])])
+            rowHeights.append(30)
+
             detail = proj["details"]
-            
-            # if not isinstance(detail, str):
-            #     detail = " ".join(map(str, detail)) 
-            
-            # detail = re.sub(r'\n', ' ', detail)  # 줄바꿈을 공백으로 대체
-                
-            # data.append([None, Paragraph("– ", styles["CustomBullet_size10"]), None])
-            data.append([None, Paragraph("– "+detail, styles["CustomBullet_size10"]), None])
-    
-        table = Table(data, colWidths=[50, 250, 150], rowHeights=rowHeights)
-        table.setStyle(TableStyle([
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-            ('LEFTPADDING', (0, 0), (-1, -1), 5),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 5)
-        ]))
-        story.append(table)
-        story.append(Spacer(1, 25))
+            data.append([None, Paragraph("– " + detail, styles["CustomBullet_size10"])])
+            rowHeights.append(80)
+
+    table = Table(data, colWidths=[50, 300, 150], rowHeights=rowHeights)
+    table.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5)
+    ]))
+    story.append(table)
+    story.append(Spacer(1, 25))
+
 
 def add_education_section(story, education_data, styles):
     if isinstance(education_data, str):
@@ -203,8 +199,8 @@ def add_language_section(story, language_data, styles):
                      Paragraph(lang["language"], styles["BoldFont_size12"]),
                      None])
         data.append([None,
-                     Paragraph("● " + lang["test"] + " " + lang["date"], styles["RegularFont_size10"]),
-                     None])
+                     Paragraph("● " + lang["test"], styles["RegularFont_size10"]),
+                     Paragraph(lang["date"], styles["RegularFont_size10"])])
         if "score" in lang:
             data.append([None,
                          Paragraph(str(lang["score"]), styles["RegularFont_size10"]),

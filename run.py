@@ -27,7 +27,7 @@ def get_career_info(vectorstore):
     if has_career == "0":
         return "경력이 없음"
 
-    companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(쉼표로 구분, 예시 : 삼성전자, 네이버)")
+    companies = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 회사는 어디인가?(단답형, 쉼표로 구분,회사명만 출력, 예시 : 삼성전자, 네이버)")
     
     companies = companies.split(', ')
     
@@ -38,10 +38,10 @@ def get_career_info(vectorstore):
         position = get_response_from_predefined_query(vectorstore, f"{company}에서의 직무는?(단답형, 예시 : 프론트엔드 개발자)")
         company_info["position"] = position if position else "N/A"
         
-        duration = get_response_from_predefined_query(vectorstore, f"{company}에서의 기간은?(기간만을 출력하여라, 예시) YYYY.MM ~ YYYY.MM)")
+        duration = get_response_from_predefined_query(vectorstore, f"{company}에서의 기간은?(단답형, 기간만을 출력하여라, 예시) YYYY.MM ~ YYYY.MM)")
         company_info["duration"] = duration if duration else "N/A"
         
-        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트명은?(쉼표로 구분, 로젝트 명 만을 출력하라,예시 : Galaxy S20 UI 개발, 네이버 메인페이지 리뉴얼)")
+        projects = get_response_from_predefined_query(vectorstore, f"{company}에서의 진행한 프로젝트명은?(단답형, 쉼표로 구분, 프로젝트 명 만을 출력하라,예시 : Galaxy S20 UI 개발, 네이버 메인페이지 리뉴얼)")
         project_list = []
         
         if projects:
@@ -51,10 +51,10 @@ def get_career_info(vectorstore):
                 project_info = {}
                 project_info["name"] = project
 
-                details = get_response_from_predefined_query(vectorstore, f"{project}의 세부내용은?(100타 이내로 작성)")
+                details = get_response_from_predefined_query(vectorstore, f"{project}의 세부내용은?(100타 이내로 미괄식 작성)")
                 project_info["details"] = details if details else "N/A"
 
-                project_duration = get_response_from_predefined_query(vectorstore, f"{project}의 기간은?(예시 : YYYY.MM ~ YYYY.MM)")
+                project_duration = get_response_from_predefined_query(vectorstore, f"{project}의 기간은?(단답형, 기간만을 출력하여라, 예시) YYYY.MM ~ YYYY.MM)")
                 project_info["duration"] = project_duration if project_duration else "N/A"
                 
                 project_list.append(project_info)
@@ -67,7 +67,7 @@ def get_career_info(vectorstore):
 def get_education_info(vectorstore):
     education_info = []
     
-    schools = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 학교명은?(쉼표로 구분)")
+    schools = get_response_from_predefined_query(vectorstore, "작성자가 다녔던 학교명은?(단답형, 쉼표로 구분)")
     
     if not schools:
         return "학력 정보가 없습니다."
@@ -81,7 +81,7 @@ def get_education_info(vectorstore):
         major = get_response_from_predefined_query(vectorstore, f"{school}에서의 전공은?(단답형)")
         school_info['major'] = major if major else "N/A"
         
-        duration = get_response_from_predefined_query(vectorstore, f"{school}을 다닌 기간은?(예시 : YYYY.MM ~ YYYY.MM)")
+        duration = get_response_from_predefined_query(vectorstore, f"{school}을 다닌 기간은?(단답형, 기간만을 출력하여라, 예시 : 2017.03 ~ 2022.02)")
         school_info['duration'] = duration if duration else "N/A"
         
         education_info.append(school_info)
@@ -89,7 +89,7 @@ def get_education_info(vectorstore):
     return education_info
 
 def get_skills_list(vectorstore):
-    skills_query = "사용자의 기술스택(skill)을 나열하라.(쉼표로 구분, 예시 : Python, C++, Java)"
+    skills_query = "사용자의 기술스택(skill)을 나열하라.(단답형, 쉼표로 구분, 예시 : Python, C++, Java)"
     skills_response = get_response_from_predefined_query(vectorstore, skills_query)
     
     if not skills_response or skills_response.lower() == 'none':
@@ -104,7 +104,7 @@ def get_skills_list(vectorstore):
     return skills_list
 
 def get_awards_and_others(vectorstore):
-    awards_query = "작성자의 수상한 상 또는 수료한 교육은?(쉼표로 구분)"
+    awards_query = "작성자의 수상한 상 또는 수료한 교육은?(단답형, 쉼표로 구분)"
     awards_response = get_response_from_predefined_query(vectorstore, awards_query)
     
     if not awards_response or awards_response.lower() == 'none':
@@ -114,10 +114,10 @@ def get_awards_and_others(vectorstore):
     awards_and_others = []
     
     for award in awards_list:
-        date_query = f"{award}의 날짜는?(일자만 출력, 예시 : YYYY.MM)"
+        date_query = f"{award}의 수료 날짜를 출력하라?(단답형, 일자만을 출력 하라, 예시 : 2017.02)"
         date_response = get_response_from_predefined_query(vectorstore, date_query)
         
-        details_query = f"{award}의 세부 내용은?(없을경우 ""로 작성)"
+        details_query = f"{award}의 세부 내용을 출력하라?(없을경우 공백 처리, 100타 이내로 미괄식 작성)"
         details_response = get_response_from_predefined_query(vectorstore, details_query)
         
         awards_and_others.append({
@@ -166,7 +166,7 @@ def get_response_from_predefined_query(vectorstore, predefined_query):
     return response
 
 def get_language_data(vectorstore):
-    language_query = "작성자가 학습한 외국어는?(쉼표로 구분)"
+    language_query = "작성자가 학습한 외국어는?(쉼표로 구분, 학습한 '외국어 명' 만을 출력하라, ex. 영어, 일본어)"
     language_response = get_response_from_predefined_query(vectorstore, language_query)
     
     if not language_response or language_response.lower() == 'none':
@@ -176,13 +176,13 @@ def get_language_data(vectorstore):
     language_data = []
     
     for lang in language_list:
-        test_query = f"{lang}의 평가를 위해 친 시험은?(ex. TOEIC, TOEFL, JLPT 등)"
+        test_query = f"{lang}의 평가를 위해 친 시험은?(단답형, '시험 명' 만을 출력하라, ex. TOEIC, TOEFL, JLPT)"
         test_response = get_response_from_predefined_query(vectorstore, test_query)
         
-        score_query = f"{test_response}의 성적은?"
+        score_query = f"{test_response}의 취득 점수를 출력하라?(단답형, 점수만을 출력하라, 예시 : 750)"
         score_response = get_response_from_predefined_query(vectorstore, score_query)
         
-        date_query = f"{test_response}의 성적 취득일자는?(YYYY.MM)"
+        date_query = f"{test_response}의 성적 취득일자를 출력하라?(단답형, 취득일자 만을 출력하라, 예시 : 2017.03)"
         date_response = get_response_from_predefined_query(vectorstore, date_query)
         
         language_data.append({
@@ -195,7 +195,7 @@ def get_language_data(vectorstore):
     return language_data
 
 def get_links(vectorstore):
-    link_query = "이력서에서 제공되는 노션 또는 깃허브의 링크는?(쉼표로 구분)"
+    link_query = "작성자가 제공하는 노션 및 깃허브 링크는?(쉼표로 구분)"
     link_response = get_response_from_predefined_query(vectorstore, link_query)
     
     if not link_response or link_response.lower() == 'none':
@@ -303,7 +303,7 @@ def main():
 
         #langchain_textspliter
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size = 2000,
+            chunk_size = 2500,
             chunk_overlap = 200,
             length_function = len
         )
