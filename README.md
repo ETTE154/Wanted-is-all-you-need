@@ -3,6 +3,9 @@
 
 ![BDIA_Benner]([https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/f47bdcb3-529e-4c56-bad2-07cec8f1c3db](https://github.com/ETTE154/Wanted-is-all-you-need/blob/main/BDIA_Benner.png))
 
+![BDIA_Benner](https://github.com/ETTE154/Wanted-is-all-you-need/assets/109407983/6a711052-85b9-487c-8529-c27d6057bbc4)
+
+
 ***
 # 소개
 
